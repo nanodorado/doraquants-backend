@@ -1,0 +1,102 @@
+# Doraquants Backend API Tests
+# Use this file with VSCode REST Client extension
+# Install: code --install-extension humao.rest-client
+
+# Variables
+@baseUrl = http://localhost:4000
+@apiKey = doraquants_secret_key_2025
+
+### Health Check (always accessible, no API key required)
+GET {{baseUrl}}/health
+
+### Basic API Info (may require API key if enabled)
+GET {{baseUrl}}/api
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+# Account endpoints (require valid Binance API keys)
+
+### Get Account Balances
+GET {{baseUrl}}/account
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+### Get Portfolio Value in USDT
+GET {{baseUrl}}/portfolio
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+### Get User Trades for BTCUSDT
+GET {{baseUrl}}/trades?symbol=BTCUSDT&limit=10
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+# Public endpoints (no Binance API keys required)
+
+### Get Market Data (Candlesticks) for BTCUSDT - 1 hour interval
+GET {{baseUrl}}/market-data?symbol=BTCUSDT&interval=1h&limit=50
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+### Get Market Data (Candlesticks) for ETHUSDT - 4 hour interval
+GET {{baseUrl}}/market-data?symbol=ETHUSDT&interval=4h&limit=24
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+### Get Current Prices for Popular Trading Pairs
+GET {{baseUrl}}/api/binance/prices
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+### Test Binance Connection Status
+GET {{baseUrl}}/api/binance/status
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+### Get Exchange Information
+GET {{baseUrl}}/api/binance/exchange-info
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+# Error testing
+
+### Test Invalid Symbol (should return error)
+GET {{baseUrl}}/market-data?symbol=INVALIDPAIR&interval=1h&limit=10
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+### Test Missing Symbol Parameter (should return 400 error)
+GET {{baseUrl}}/market-data?interval=1h&limit=10
+# Uncomment the line below if API_KEY is enabled in .env
+# x-api-key: {{apiKey}}
+
+###
+
+### Test Wrong API Key (uncomment to test authentication)
+# GET {{baseUrl}}/api
+# x-api-key: wrong_api_key
+
+###
+
+### Test Missing API Key (uncomment to test authentication when API_KEY is enabled)
+# GET {{baseUrl}}/api

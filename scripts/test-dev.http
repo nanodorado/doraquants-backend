@@ -1,0 +1,69 @@
+# Doraquants Backend API Tests - Development Mode
+# Use this file when API_KEY is NOT set in .env (development mode)
+# Use this file with VSCode REST Client extension
+
+# Variables
+@baseUrl = http://localhost:4000
+
+### Health Check
+GET {{baseUrl}}/health
+
+### Basic API Info
+GET {{baseUrl}}/api
+
+###
+
+# Account endpoints (require valid Binance API keys)
+# Note: These will fail with invalid API keys, but won't require x-api-key header
+
+### Get Account Balances
+GET {{baseUrl}}/account
+
+###
+
+### Get Portfolio Value in USDT
+GET {{baseUrl}}/portfolio
+
+###
+
+### Get User Trades for BTCUSDT
+GET {{baseUrl}}/trades?symbol=BTCUSDT&limit=10
+
+###
+
+# Public endpoints (no Binance API keys required)
+
+### Get Market Data (Candlesticks) for BTCUSDT - 1 hour interval
+GET {{baseUrl}}/market-data?symbol=BTCUSDT&interval=1h&limit=50
+
+###
+
+### Get Market Data (Candlesticks) for ETHUSDT - 4 hour interval
+GET {{baseUrl}}/market-data?symbol=ETHUSDT&interval=4h&limit=24
+
+###
+
+### Get Current Prices for Popular Trading Pairs
+GET {{baseUrl}}/api/binance/prices
+
+###
+
+### Test Binance Connection Status
+GET {{baseUrl}}/api/binance/status
+
+###
+
+### Get Exchange Information
+GET {{baseUrl}}/api/binance/exchange-info
+
+###
+
+# Error testing
+
+### Test Invalid Symbol (should return error)
+GET {{baseUrl}}/market-data?symbol=INVALIDPAIR&interval=1h&limit=10
+
+###
+
+### Test Missing Symbol Parameter (should return 400 error)
+GET {{baseUrl}}/market-data?interval=1h&limit=10
