@@ -7,7 +7,13 @@ const Binance = require('binance-api-node').default;
 function getBinanceClient() {
   const apiKey = process.env.BINANCE_API_KEY;
   const apiSecret = process.env.BINANCE_API_SECRET;
-  const isTestnet = process.env.BINANCE_TESTNET === 'true';
+  
+  // Handle testnet configuration - support both quoted and unquoted values
+  const testnetEnv = process.env.BINANCE_TESTNET;
+  const useTestnet = testnetEnv === 'true' || testnetEnv === '"true"' || testnetEnv === true;
+
+  // Log testnet usage for Railway verification (without exposing API keys)
+  console.log('[Binance] Using Testnet:', useTestnet);
 
   // Validate required environment variables
   if (!apiKey || !apiSecret) {
@@ -19,13 +25,13 @@ function getBinanceClient() {
     apiSecret
   };
 
-  // Configure for testnet if enabled
-  if (isTestnet) {
+  // Force testnet configuration when enabled
+  if (useTestnet) {
     clientConfig.httpBase = 'https://testnet.binance.vision';
     clientConfig.wsBase = 'wss://testnet.binance.vision/ws';
-    console.log('🧪 Using Binance Testnet');
+    console.log('🧪 Binance client configured for TESTNET environment');
   } else {
-    console.log('🚀 Using Binance Mainnet');
+    console.log('🚀 Binance client configured for MAINNET environment');
   }
 
   try {
